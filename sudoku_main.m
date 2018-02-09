@@ -13,7 +13,7 @@ puzzle_num = 1;
 load(fullfile('.','puzzles',['puzzle_' num2str(puzzle_num) '.mat']));
 
 %% Solve Puzzle
-soln_mat = b;
+soln_mat = SudokuSolver(a)
 
 %% Confirm Answer
 assert(all(all(soln_mat == b)),"Close, maybe next time");
