@@ -7,10 +7,20 @@ classdef SudokuBlock < handle
     end
     methods
         function block = SudokuBlock(idx,val)
+            % Constructor for SudokuBlock
+            % Initaliazes correct location values
+            % Initaliazes possible values
             block.idx = idx;
-            block.col = idivide(int8(idx),10)+1;
-            block.row = mod(idx,10);
+            block.col = idivide(int8(idx),9)+1;
+            block.row = mod(idx,9);
             
+            % Correct values in last row where math "Fails"
+            if block.row == 0
+                block.row = 9;
+                block.col = block.col - 1;
+            end
+            
+            % Init possible
             if val == 0
                 block.possible = [1:9];
             else
@@ -19,18 +29,23 @@ classdef SudokuBlock < handle
         end
         
         function elim_poss(block,val)
+            % Removes val as a possible value for this block
             block.possible = block.possible(~val);
         end
         
         function row = get_row(block)
+            % Returns the row this block is in
             row = block.row;
         end
         
         function col = get_col(block)
+            % Returns the column this block is in
             col = block.col;
         end
         
         function box = get_box(block)
+            % Returns the indexes of all other blocks located in the same
+            % box
             b1 = [1 2 3 10 11 12 19 20 21];
             if any(b1==block.idx)
                 box = b1(~block.idx);
